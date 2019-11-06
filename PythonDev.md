@@ -2,8 +2,9 @@
 
 ## Development intro 
 > Note: This course uses Python 3.7 and you will definitely run into issues if you are using Python < 3.7.
+
 Download and Install Python 3 from Source
-https://www.python.org/downloads/
+  https://www.python.org/downloads/
 
 Here are the commands that we'll run to build and install Python 3 Ubuntu 18.04 :
 ```
@@ -760,3 +761,282 @@ In the even that we want to check multiple potential conditions we can use the e
 name is 5 characters
 ```
 Notice that we fell into the first elif statement's block and then the second elif block was never executed even though it was true. We can only exercise one branch in an if statement.
+## Logic Operations
+Up to this point, we've learned how to make simple comparisons, and now it's time to make compound comparisons using logic/boolean operators.
+Python Documentation For This Video
+
+    Boolean Operators
+    Ref: https://docs.python.org/3/library/stdtypes.html#boolean-operations-and-or-not
+The not Operation
+
+Sometimes we want to know the opposite boolean value for something. This might not sound intuitive, but sometimes we want to execute an if statement when a value is False, but that's not how the if statement works. Here's an example of how we can use not to make this work:
+```
+>>> name = ""
+>>> not name
+True
+>>> if not name:
+...     print("No name given")
+...
+>>>
+```
+We know that an empty string is a "falsy" value, so not "" will always return True. not will return the opposite boolean value for whatever it's operating on.
+The or Operation
+
+Occasionally, we want to carry out a branch in our logic if one condition OR the other condition is True. Here is where we'll use the or operation. Let's see or in action with an if statement:
+```
+>>> first = ""
+>>> last = "Thompson"
+>>> if first or last:
+...     print("The user has a first or last name")
+...
+The user has a first or last name
+>>>
+```
+If both first and last were "falsy" then the print would never happen:
+```
+>>> first = ""
+>>> last = ""
+>>> if first or last:
+...     print("The user has a first or last name")
+...
+>>>
+```
+Another feature of or that we should know is that we can use it to set default values for variables:
+```
+>>> last = ""
+>>> last_name = last or "Doe"
+>>> last_name
+'Doe'
+>>>
+```
+The or operation will return the first value that is "truthy" or the last value in the chain:
+```
+>>> 0 or 1
+1
+>>> 1 or 2
+1
+```
+The and Operation
+
+The opposite of or is the and operation, which requires both conditions to be True. Continuing with our first and last name example, let's conditionally print based on what we know:
+```
+>>> first = "Keith"
+>>> last = ""
+>>> if first and last:
+...     print(f"Full name: {first} {last}")
+... elif first:
+...     print(f"First name: {first}")
+... elif last:
+...     print(f"Last name: {last}")
+...
+First name: Keith
+>>>
+```
+Now let's try the same thing with both first and last:
+```
+>>> first = "Keith"
+>>> last = "Thompson"
+>>> if first and last:
+...     print(f"Full name: {first} {last}")
+... elif first:
+...     print(f"First name: {first}")
+... elif last:
+...     print(f"Last name: {last}")
+...
+Full name: Keith Thompson
+>>>
+```
+The and operation will return the first value that is "falsy" or the last value in the chain:
+```
+>>> 0 and 1
+0
+>>> 1 and 2
+2
+>>> (1 == 1) and print("Something")
+Something
+>>> (1 == 2) and print("Something")
+False
+```
+## The `while` loop
+It's incredibly common to need to repeat something a set number of times or to iterate over content. Here is where looping and iteration come into play.
+Python Documentation For This Video
+
+    while statement
+    https://docs.python.org/3/tutorial/introduction.html#first-steps-towards-programming
+
+The while Loop
+
+The most basic type of loop that we have at our disposal is the while loop. This type of loop repeats itself based on a condition that we pass to it. Here's the general structure of a while loop:
+
+while CONDITION:
+    pass
+
+The CONDITION in this statement works the same way that it does for an if statement. When we demonstrated the if statement we first tried it by simply passing in True as the condition. Let's see when we try that same condition with a while loop:
+```
+>>> while True:
+...     print("looping")
+...
+looping
+looping
+looping
+looping
+```
+That loop will continue forever, we've created an infinite loop. To stop the loop, press Ctrl-C. Infinite loops are one of the potential problems with while loops if we don't use a condition that we can change from within the loop then it will continue forever if initially true. Here's how we'll normally approach using a while loop where we modify something about the condition on each iteration:
+```
+>>> count = 1
+>>> while count <= 4:
+...     print("looping")
+...     count += 1
+...
+looping
+looping
+looping
+looping
+>>>
+```
+We can use other loops or conditions inside of our loops; we need only remember to indent four more spaces for each context. If in a nested context we want to continue to the next iteration or stop the loop entirely we also have access to the continue and break keywords:
+```
+>>> count = 0
+>>> while count < 10:
+...     if count % 2 == 0:
+...         count += 1
+...         continue
+...     print(f"We're counting odd numbers: {count}")
+...     count += 1
+...
+We're counting odd numbers: 1
+We're counting odd numbers: 3
+We're counting odd numbers: 5
+We're counting odd numbers: 7
+We're counting odd numbers: 9
+>>>
+```
+In that example, we also show off how to "string interpolation" in Python 3 by prefixing a string literal with an f and then using curly braces to substitute in variables or expressions (in this case the count value).
+
+Here's an example using the break statement:
+```
+>>> count = 1
+>>> while count < 10:
+...     if count % 2 == 0:
+...         break
+...     print(f"We're counting odd numbers: {count}")
+...     count += 1
+...
+We're counting odd numbers: 1
+```
+Print Even numbers:
+```
+>>> count = 0
+>>> while count < 1000:
+...   if count % 2 != 0:
+...     count += 1
+...     continue
+...   print(f"we are counnting even numbers: {count}")
+...   count += 1
+```
+## The `for` Loop
+It's incredibly common to need to repeat something a set number of times or to iterate over content. Here is where looping and iteration come into play.
+Python Documentation For This Video
+
+    for statement
+    Ref: https://docs.python.org/3/tutorial/controlflow.html#for-statements
+
+The for Loop
+
+The most common use we have for looping is when we want to execute some code for each item in a sequence. For this type of looping or iteration, we'll use the for loop. The general structure for a for loop is:
+```
+for TEMP_VAR in SEQUENCE:
+    pass
+```
+The TEMP_VAR will be populated with each item as we iterate through the SEQUENCE and it will be available to us in the context of the loop. After the loop finishes one iteration, then the TEMP_VAR will be populated with the next item in the SEQUENCE, and the loop's body will execute again. This process continues until we either hit a break statement or we've iterated over every item in the SEQUENCE. Here's an example looping over a list of colors:
+```
+>>> colors = ['blue', 'green', 'red', 'purple']
+>>> for color in colors:
+...     print(color)
+...
+blue
+green
+red
+purple
+>>> color
+'purple'
+```
+If we wanted not to print out certain colors we could utilize the continue or break statements again. Let's say we want to skip the string 'blue' and terminate the loop if we see the string 'red':
+```
+>>> colors = ['blue', 'green', 'red', 'purple']
+>>> for color in colors:
+...     if color == 'blue':
+...         continue
+...     elif color == 'red':
+...         break
+...     print(color)
+...
+green
+>>>
+```
+Other Iterable Types
+
+Lists will be the most common type that we iterate over using a for loop, but we can also iterate over other sequence types. Of the types we already know, we can iterate over strings, dictionaries, and tuples.
+
+Here's a tuple example:
+```
+>>> point = (2.1, 3.2, 7.6)
+>>> for value in point:
+...     print(value)
+...
+2.1
+3.2
+7.6
+>>>
+```
+A dictionary example:
+```
+>>> ages = {'kevin': 59, 'bob': 40, 'kayla': 21}
+>>> for key in ages:
+...     print(key)
+...
+kevin
+bob
+kayla
+```
+A string example:
+```
+>>> for letter in "my_string":
+...     print(letter)
+...
+m
+y
+_
+s
+t
+r
+i
+n
+g
+>>>
+```
+Unpacking Multiple Items in a for Loop
+
+We discussed in the tuples video how you could separate a tuple into multiple variables by "unpacking" the values. Unpacking works in the context of a loop definition, and you'll need to know this to most effectively iterate over dictionaries because you'll usually want the key and the value. Let's iterate of a list of "points" to test this out:
+```
+>>> list_of_points = [(1, 2), (2, 3), (3, 4)]
+>>> for x, y in list_of_points:
+...     print(f"x: {x}, y: {y}")
+...
+x: 1, y: 2
+x: 2, y: 3
+x: 3, y: 4
+```
+Seeing how this unpacking works, let's use the items method on our ages dictionary to list out the names and ages:
+```
+>>> for name, age in ages.items():
+...     print(f"Person Named: {name}")
+...     print(f"Age of: {age}")
+...
+Person Named: kevin
+Age of: 59
+Person Named: bob
+Age of: 40
+Person Named: kayla
+Age of: 21
+```
